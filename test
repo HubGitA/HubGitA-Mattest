@@ -1996,3 +1996,14 @@ END
 go
 
 
+
+
+CREATE TABLE [E_11]
+( 
+	[a]                  char(18)  NOT NULL 
+)
+go
+
+ALTER TABLE [E_11]
+ADD CONSTRAINT [XPKE_11] PRIMARY KEY  CLUSTERED ([a] ASC)
+go
