@@ -1,0 +1,6 @@
+
+CREATE TABLE E_1
+(
+	b BYTE,
+	c BYTE
+);
