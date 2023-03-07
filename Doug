@@ -1,0 +1,6 @@
+
+execute sp_rename 'EMP', 'MATT', 'OBJECT'
+go
+
+execute sp_rename 'PAYMENT', 'PAYMENT2', 'OBJECT'
+go
