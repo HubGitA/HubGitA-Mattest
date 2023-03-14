@@ -4,3 +4,14 @@ go
 
 execute sp_rename 'PAYMENT', 'PAYMENT2', 'OBJECT'
 go
+
+
+CREATE TABLE [E_10]
+( 
+	[a]                  char(18)  NOT NULL 
+)
+go
+
+ALTER TABLE [E_10]
+ADD CONSTRAINT [XPKE_10] PRIMARY KEY  CLUSTERED ([a] ASC)
+go
