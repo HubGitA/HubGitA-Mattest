@@ -2012,3 +2012,8 @@ go
 ALTER TABLE [E_1]
 ADD [b]  char(18)  NULL
 go
+
+
+ALTER TABLE [E_1]
+ADD [b]  char(18)  NULL
+go
