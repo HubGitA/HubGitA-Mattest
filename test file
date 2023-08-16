@@ -1,0 +1,242 @@
+
+CREATE TABLE as
+(
+	sf                   CHAR(18)  NOT NULL ,
+	dfsa                 CHAR(18)  NULL 
+);
+
+CREATE UNIQUE INDEX XPKas ON as
+(sf   ASC);
+
+ALTER TABLE as
+	ADD CONSTRAINT  XPKas PRIMARY KEY (sf);
+
+CREATE TABLE ee_config_registry
+(
+	config_uu_id         ROWID  NOT NULL ,
+	config_name          VARCHAR2(240)  NOT NULL ,
+	config_version_num   DEC  NOT NULL ,
+	config_desc          VARCHAR2(255)  NOT NULL ,
+	config_active_effective_tmst DATE  NULL ,
+	config_inactive_effective_tmst DATE  NULL ,
+	config_json_txt      VARCHAR2(4000)  NOT NULL ,
+	created_by_login_name VARCHAR2(50)  NOT NULL ,
+	updated_by_login_name VARCHAR2(50)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	last_updated_tmst    DATE  NOT NULL 
+);
+
+CREATE UNIQUE INDEX XPKee_config_registry ON ee_config_registry
+(config_uu_id   ASC);
+
+ALTER TABLE ee_config_registry
+	ADD CONSTRAINT  XPKee_config_registry PRIMARY KEY (config_uu_id);
+
+CREATE TABLE ee_data_log
+(
+	data_service_logging_id ROWID  NOT NULL ,
+	event_map_correlation_uu_id ROWID  NOT NULL ,
+	original_event_map_correlation_uu_id ROWID  NOT NULL ,
+	log_severity_desc    VARCHAR2(240)  NOT NULL ,
+	log_grain_desc       VARCHAR2(240)  NOT NULL ,
+	log_value_txt        VARCHAR2(4000)  NOT NULL ,
+	field_key_value_txt  VARCHAR2(4000)  NULL ,
+	record_key_value_txt VARCHAR2(4000)  NULL ,
+	file_location_txt    VARCHAR2(500)  NULL ,
+	created_by_login_name VARCHAR2(50)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	operation_name       VARCHAR2(240)  NULL 
+);
+
+CREATE UNIQUE INDEX data_log_pk ON ee_data_log
+(data_service_logging_id   ASC);
+
+ALTER TABLE ee_data_log
+	ADD CONSTRAINT  data_log_pk PRIMARY KEY (data_service_logging_id);
+
+CREATE TABLE ee_event_map_registry
+(
+	event_map_uu_id      ROWID  NOT NULL ,
+	event_map_name       VARCHAR2(240)  NOT NULL ,
+	event_map_version_num DEC  NOT NULL ,
+	event_map_active_effective_tmst DATE  NULL ,
+	event_map_inactive_effective_tmst DATE  NULL ,
+	event_uu_id          ROWID  NOT NULL ,
+	parent_event_map_list_txt VARCHAR2(4000)  NULL ,
+	event_map_json_txt   VARCHAR2(4000)  NOT NULL ,
+	created_by_login_name VARCHAR2(50)  NOT NULL ,
+	updated_by_login_name VARCHAR2(50)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	last_updated_tmst    DATE  NOT NULL ,
+	daily_file_limit_num INTEGER  NOT NULL ,
+	expected_latest_start_time DATE  NULL 
+);
+
+CREATE UNIQUE INDEX XPKee_event_map_registry ON ee_event_map_registry
+(event_map_uu_id   ASC);
+
+ALTER TABLE ee_event_map_registry
+	ADD CONSTRAINT  XPKee_event_map_registry PRIMARY KEY (event_map_uu_id);
+
+CREATE TABLE ee_event_registry
+(
+	event_uu_id          ROWID  NOT NULL ,
+	event_name           VARCHAR2(240)  NOT NULL ,
+	event_version_num    DEC  NOT NULL ,
+	event_active_effective_tmst DATE  NULL ,
+	event_inactive_effective_tmst DATE  NULL ,
+	event_json_txt       VARCHAR2(4000)  NOT NULL ,
+	created_by_login_name VARCHAR2(50)  NOT NULL ,
+	updated_by_login_name VARCHAR2(50)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	last_updated_tmst    DATE  NOT NULL 
+);
+
+CREATE UNIQUE INDEX XPKee_event_registry ON ee_event_registry
+(event_uu_id   ASC);
+
+ALTER TABLE ee_event_registry
+	ADD CONSTRAINT  XPKee_event_registry PRIMARY KEY (event_uu_id);
+
+CREATE TABLE ee_file_limit_override
+(
+	config_id            INTEGER  NOT NULL ,
+	created_by_login_name VARCHAR2(50)  NOT NULL ,
+	file_desc            VARCHAR2(100)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	file_name            VARCHAR2(50)  NOT NULL ,
+	file_created_tmst    VARCHAR2(50)  NOT NULL ,
+	event_map_uu_id      ROWID  NOT NULL 
+);
+
+CREATE UNIQUE INDEX ee_file_limit_override_PK ON ee_file_limit_override
+(file_desc   ASC,file_created_tmst   ASC,event_map_uu_id   ASC);
+
+ALTER TABLE ee_file_limit_override
+	ADD CONSTRAINT  ee_file_limit_override_PK PRIMARY KEY (file_desc,file_created_tmst,event_map_uu_id);
+
+CREATE TABLE ee_property
+(
+	config_id            INTEGER  NOT NULL ,
+	created_by_login_name VARCHAR2(100)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	type_code            VARCHAR2(50)  NOT NULL ,
+	property_key_name    VARCHAR2(50)  NOT NULL ,
+	value_name           VARCHAR2(100)  NOT NULL 
+);
+
+CREATE UNIQUE INDEX ee_property_pk ON ee_property
+(type_code   ASC,property_key_name   ASC,value_name   ASC);
+
+ALTER TABLE ee_property
+	ADD CONSTRAINT  ee_property_pk PRIMARY KEY (type_code,property_key_name,value_name);
+
+CREATE TABLE ee_root_event_config
+(
+	root_event_config_uu_id ROWID  NULL ,
+	file_name_token_name VARCHAR2(50)  NULL ,
+	root_event_uu_id     char(36)  NULL ,
+	root_event_name      VARCHAR2(240)  NULL ,
+	root_event_version_num INTEGER  NULL ,
+	config_json_txt      VARCHAR2(4000)  NULL ,
+	created_by_login_name VARCHAR2(50)  NULL ,
+	updated_by_login_name VARCHAR2(50)  NULL ,
+	created_tmst         DATE  NULL ,
+	last_updated_tmst    DATE  NULL 
+);
+
+CREATE TABLE ee_service_registry
+(
+	service_uu_id        ROWID  NOT NULL ,
+	service_name         VARCHAR2(240)  NOT NULL ,
+	service_version_num  DEC  NOT NULL ,
+	service_active_effective_tmst DATE  NULL ,
+	service_inactive_effective_tmst DATE  NULL ,
+	service_json_txt     VARCHAR2(4000)  NOT NULL ,
+	created_by_login_name VARCHAR2(50)  NOT NULL ,
+	updated_by_login_name VARCHAR2(50)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	last_updated_tmst    DATE  NOT NULL 
+);
+
+CREATE UNIQUE INDEX XPKee_service_registry ON ee_service_registry
+(service_uu_id   ASC);
+
+ALTER TABLE ee_service_registry
+	ADD CONSTRAINT  XPKee_service_registry PRIMARY KEY (service_uu_id);
+
+CREATE TABLE ee_temporal_window
+(
+	temporal_window_uu_id ROWID  NOT NULL ,
+	file_group_name      VARCHAR2(255)  NOT NULL ,
+	status_desc          VARCHAR2(255)  NOT NULL ,
+	window_active_effective_tmst DATE  NULL ,
+	window_inactive_effective_tmst DATE  NULL ,
+	created_by_login_name VARCHAR2(50)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	updated_by_login_name VARCHAR2(50)  NOT NULL ,
+	last_updated_tmst    DATE  NOT NULL ,
+	cron_window_desc     VARCHAR2(255)  NOT NULL ,
+	cron_file_padding_desc VARCHAR2(255)  NOT NULL 
+);
+
+CREATE UNIQUE INDEX temporal_window_pk ON ee_temporal_window
+(temporal_window_uu_id   ASC);
+
+ALTER TABLE ee_temporal_window
+	ADD CONSTRAINT  temporal_window_pk PRIMARY KEY (temporal_window_uu_id);
+
+CREATE TABLE ee_temporal_window_file
+(
+	temporal_window_file_uu_id ROWID  NOT NULL ,
+	vendor_desc          VARCHAR2(255)  NOT NULL ,
+	file_token_desc      VARCHAR2(255)  NOT NULL ,
+	sequence_num         smallint  NOT NULL ,
+	version_num          DEC  NOT NULL ,
+	created_by_login_name VARCHAR2(50)  NOT NULL ,
+	updated_by_login_name VARCHAR2(50)  NOT NULL ,
+	created_tmst         DATE  NOT NULL ,
+	last_updated_tmst    DATE  NOT NULL 
+);
+
+CREATE UNIQUE INDEX temporal_window_file_pk ON ee_temporal_window_file
+(temporal_window_file_uu_id   ASC);
+
+ALTER TABLE ee_temporal_window_file
+	ADD CONSTRAINT  temporal_window_file_pk PRIMARY KEY (temporal_window_file_uu_id);
+
+CREATE TABLE ee_temporal_window_file_relationship
+(
+	temporal_window_file_relationship_uu_id ROWID  NOT NULL ,
+	window_uu_id         ROWID  NOT NULL ,
+	file_uu_id           ROWID  NOT NULL 
+);
+
+CREATE UNIQUE INDEX temporal_window_file_relationship_pk ON ee_temporal_window_file_relationship
+(temporal_window_file_relationship_uu_id   ASC);
+
+ALTER TABLE ee_temporal_window_file_relationship
+	ADD CONSTRAINT  temporal_window_file_relationship_pk PRIMARY KEY (temporal_window_file_relationship_uu_id);
+
+CREATE TABLE ee_write_ahead_logger
+(
+	write_ahead_logger_uu_id ROWID  NOT NULL ,
+	event_map_uu_id      ROWID  NULL ,
+	event_map_correlation_uu_id ROWID  NULL ,
+	original_event_map_correlation_uu_id ROWID  NULL ,
+	created_tmst         DATE  NOT NULL ,
+	created_by_login_name VARCHAR2(240)  NOT NULL ,
+	log_severity_desc    VARCHAR2(240)  NOT NULL ,
+	log_type_code_desc   VARCHAR2(240)  NOT NULL ,
+	log_message_txt      VARCHAR2(4000)  NOT NULL ,
+	event_map_json_txt   VARCHAR2(4000)  NULL ,
+	context_details_json_txt VARCHAR2(4000)  NULL ,
+	event_map_execution_status_code VARCHAR2(20)  NULL ,
+	business_process_tmst DATE  NULL 
+);
+
+CREATE UNIQUE INDEX XPKee_write_ahead_logger ON ee_write_ahead_logger
+(write_ahead_logger_uu_id   ASC);
+
+ALTER TABLE ee_write_ahead_logger
+	ADD CONSTRAINT  XPKee_write_ahead_logger PRIMARY KEY (write_ahead_logger_uu_id);
