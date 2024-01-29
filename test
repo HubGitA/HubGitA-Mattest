@@ -8,3 +8,7 @@ go
 ALTER TABLE [E_1]
 	ADD CONSTRAINT [XPKE_1] PRIMARY KEY  CLUSTERED ([a] ASC)
 go
+
+
+execute sp_rename 'PAYMENT', 'PAYMENTx', 'OBJECT'
+go
